@@ -4,6 +4,7 @@ const passRegex=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]
 const pincodeRegex=/^[1-9][0-9]{5}$/
 const ImgRegex=/(http)?s?:?(\/\/[^"']*\.(?:png|jpg|jpeg|gif|png|svg))/
 const mongoose = require("mongoose")
+const { validator } = require(".")
 
 function isValidPhoneNumber(data){
     return mobileRegex.test(data)
@@ -39,6 +40,11 @@ function isLetters(data){
     return false
 }
 
+function isValidImage(data){
+    return /image\/png|image\/jpeg|image\/jpg/.test(data)
+}
+
+
 function isValidPincode(data){
     if(typeof data =="number" && pincodeRegex.test(data)) return true
     return false
@@ -69,5 +75,6 @@ module.exports={
     isLetters,
     isValidObjectId,
     isValidSize,
-    makingArray
+    makingArray,
+    isValidImage
 }

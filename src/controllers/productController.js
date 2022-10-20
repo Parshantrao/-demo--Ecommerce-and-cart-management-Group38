@@ -113,6 +113,11 @@ const updateProduct = async function(req,res){
 
         let {title,description,price,currencyId,currencyFormat,isFreeShipping,style,availableSizes,installments,productImage}=req.body
 
+        for(let key in req.body){
+            if(!validator.isValid(req.body[key])){
+                return res.status(400).send({status:false, message:`${key} can't be empty`})
+            }
+        }
         let filter = {}
         if(title){
             if(!validator.isLetters(title)){
@@ -187,6 +192,9 @@ const updateProduct = async function(req,res){
 
         if(files && files.length>0){
             const url = await aws.uploadFile(files[0])
+            if(!validator.isValidImageUrl(url)){
+                return res.status(400).send({status:false, message:"Invalid image url"})
+            }
             filter.productImage = url
         }
         

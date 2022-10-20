@@ -104,6 +104,9 @@ const newUser = async function(req,res){
 
     if(files && files.length>0){
         const url = await aws.uploadFile(files[0])
+        if(!validator.isValidImageUrl(url)){
+            return res.status(400).send({status:false, message:"Invalid image url"})
+        }
         profileImage = url
     }
     else{
@@ -311,6 +314,9 @@ const updateUser = async function(req,res){
     
         if(files && files.length>0){
             const url = await aws.uploadFile(files[0])
+            if(!validator.isValidImageUrl(url)){
+                return res.status(400).send({status:false, message:"Invalid image url"})
+            }
             obj.profileImage = url
         }
         
