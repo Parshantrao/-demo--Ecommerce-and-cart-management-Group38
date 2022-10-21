@@ -12,7 +12,7 @@ const newUser = async function(req,res){
     }
    
     let {fname,lname,email,profileImage,phone,password,address}=req.body
-    
+    // console.log(req.body)
     //======================= Check for mandatory fields & Validating fields that has type "string"  ==========================
     let mandatoryFields = ["fname","lname","email","phone","password","address"]
     for(let key of mandatoryFields){
@@ -104,6 +104,9 @@ const newUser = async function(req,res){
 
     if(files && files.length>0){
         const url = await aws.uploadFile(files[0])
+        if(!validator.isValidImageUrl(url)){
+            return res.status(400).send({status:false, message:"Invalid profileImage url"})
+        }
         profileImage = url
     }
     else{
@@ -311,6 +314,9 @@ const updateUser = async function(req,res){
     
         if(files && files.length>0){
             const url = await aws.uploadFile(files[0])
+            if(!validator.isValidImageUrl(url)){
+                return res.status(400).send({status:false, message:"Invalid profileImage url"})
+            }
             obj.profileImage = url
         }
         

@@ -108,7 +108,7 @@ const updateCart = async function(req,res){
             return res.status(400).send({status:false, message:"no user found"})
         }
 
-        const {cartId,productId,removeProduct}=req.body
+        let {cartId,productId,removeProduct}=req.body
         cartId=cartId.trim()
         productId= productId.trim()
         

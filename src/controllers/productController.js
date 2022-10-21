@@ -76,6 +76,9 @@ const newProduct = async function(req,res){
 
         if(files && files.length>0){
             const url = await aws.uploadFile(files[0])
+            if(!validator.isValidImageUrl(url)){
+                return res.status(400).send({status:false, message:"Invalid profileImage url"})
+            }
             productImage = url
         }
         else{
@@ -187,6 +190,9 @@ const updateProduct = async function(req,res){
 
         if(files && files.length>0){
             const url = await aws.uploadFile(files[0])
+            if(!validator.isValidImageUrl(url)){
+                return res.status(400).send({status:false, message:"Invalid profileImage url"})
+            }
             filter.productImage = url
         }
         
